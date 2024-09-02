@@ -1,0 +1,36 @@
+x = np.array([0, 1, 2, 1, 0])
+distinct_val = np.unique(x)
+n_col = len(distinct_val) #get the number of cols
+
+new_arr=[]
+final_arr=[]
+for i in x:
+    new_arr = [1 if j == i else 0 for j in range(n_col)]  # This works for any value of i
+    final_arr.append(new_arr)
+np_final = np.array (final_arr)
+print(np_final) 
+
+
+#Bug in the above
+'''The issue arises because the number of columns (n_col) is based on the number of unique values in x,
+but the list comprehension is using i directly as an index. When i is larger than the maximum index
+(which is determined by the number of unique values), the code creates a row that doesn't match the intended position for 1.
+
+To fix this, you should map each unique value to an index in distinct_val. Here's how you can do that:'''
+x = np.array([0, 1, 2, 1, 0, 4])
+distinct_val = np.unique(x)
+n_col = len(distinct_val)  # Get the number of columns
+
+# Create a mapping from each unique value to its index
+val_to_index = {val: idx for idx, val in enumerate(distinct_val)}
+
+final_arr = []
+for i in x:
+    # Use the mapping to find the correct index for the '1'
+    index = val_to_index[i]
+    new_arr = [1 if j == index else 0 for j in range(n_col)]
+    final_arr.append(new_arr)
+
+np_final = np.array(final_arr)
+print(np_final)
+
