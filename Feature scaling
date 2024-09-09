@@ -1,0 +1,30 @@
+'''Feature Scaling Implementation (easy)
+Python function that performs feature scaling on a dataset using both standardization and min-max normalization.
+The function should take a 2D NumPy array as input, where each row represents a data sample and each column represents a feature.
+
+Example
+Example:
+        input: data = np.array([[1, 2], [3, 4], [5, 6]])
+        output: ([[-1.2247, -1.2247], [0.0, 0.0], [1.2247, 1.2247]], [[0.0, 0.0], [0.5, 0.5], [1.0, 1.0]])
+        reasoning: Standardization rescales the feature to have a mean of 0 and a standard deviation of 1.
+        Min-max normalization rescales the feature to a range of [0, 1], where the minimum feature value
+        maps to 0 and the maximum to 1.'''
+
+#Standardization formula = (X - Xmean )/ Xstd
+#Normalization = (X - Xmin) / (Xmax - Xmin)
+def feature_scaling(data):
+    # Standardization
+    mean = np.mean(data, axis=0) 
+    std = np.std(data, axis=0)
+    standardized_data = (data - mean) / std
+    
+    # Min-Max Normalization
+    min_val = np.min(data, axis=0)
+    max_val = np.max(data, axis=0)
+    normalized_data = (data - min_val) / (max_val - min_val)
+    
+    return np.round(standardized_data,4).tolist(), np.round(normalized_data,4).tolist()
+
+data = np.array([[1, 2], [3, 4], [5, 6]])
+std_data, norm_data = feature_scaling(data)
+
